@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="MBDEVproAPI.API/MBDEVproAPI.API.csproj" Id="264fee97-b595-4ba0-bcc6-aff57c378a94" />
+  <Project Path="MBDEVproAPI.BLL/MBDEVproAPI.BLL.csproj" Id="67ea1b85-8fdd-41d9-9cd0-6c2e0eb90b16" />
+  <Project Path="MBDEVproAPI.Common/MBDEVproAPI.Common.csproj" Id="f84697a6-ade0-4334-b384-9ff45ebafded" />
+  <Project Path="MBDEVproAPI.DataModel/MBDEVproAPI.DataModel.csproj" Id="c5be9e9b-d8c9-45ad-b13e-223a9c7f679b" />
+  <Project Path="MBDEVproAPI.Repository/MBDEVproAPI.Repository.csproj" Id="5e0fdd74-3390-4563-97af-fa73a4c4edab" />
+</Solution>

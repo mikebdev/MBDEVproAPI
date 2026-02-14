@@ -24,4 +24,8 @@
     <PackageReference Include="System.Linq" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MBDEVproAPI.DataModel\MBDEVproAPI.DataModel.csproj" />
+  </ItemGroup>
+
 </Project>

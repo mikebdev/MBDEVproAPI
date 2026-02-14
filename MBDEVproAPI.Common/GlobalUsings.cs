@@ -1,0 +1,12 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.ComponentModel;
+global using System.ComponentModel.DataAnnotations;
+global using System.ComponentModel.DataAnnotations.Schema;
+global using MBDEVproAPI.Common.Models;
+global using MBDEVproAPI.Common.ViewModels;
+global using Serilog;
+global using Serilog.Formatting.Json;
+//global using MBDEVproAPI.Common.ViewModels.Shared;
+global using Microsoft.AspNetCore.Mvc.Rendering;
+global using Microsoft.AspNetCore.Http;

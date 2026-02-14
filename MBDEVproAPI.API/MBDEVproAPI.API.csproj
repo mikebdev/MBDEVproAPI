@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -26,6 +26,12 @@
 
   <ItemGroup>
     <Folder Include="MiddleWares\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MBDEVproAPI.BLL\MBDEVproAPI.BLL.csproj" />
+    <ProjectReference Include="..\MBDEVproAPI.Common\MBDEVproAPI.Common.csproj" />
+    <ProjectReference Include="..\MBDEVproAPI.Repository\MBDEVproAPI.Repository.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿
 namespace MBDEVproAPI.Common.Models
 {
-        public class Customer
+        public class Customer : BaseModel
         {
 
             [Key]

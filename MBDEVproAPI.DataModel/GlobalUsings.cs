@@ -3,6 +3,7 @@ global using System.ComponentModel.DataAnnotations;
 global using System.ComponentModel.DataAnnotations.Schema;
 global using System.Linq;
 global using MBDEVproAPI.Common;
+global using MBDEVproAPI.Common.Models;
 //global using MBDEVproAPI.DataModel.Entities;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.EntityFrameworkCore;

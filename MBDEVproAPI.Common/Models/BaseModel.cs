@@ -11,26 +11,24 @@ namespace MBDEVproAPI.Common.Models
         /// <summary>
         /// Created By for entities
         /// </summary>
-        [StringLength(50), Required]
+        [StringLength(50)]
         public string? CreatedBy { get; set; }
 
         /// <summary>
         /// Created Date for entities
         /// </summary>
-        [Required]
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         /// <summary>
         /// Modified By 
         /// </summary>
-        [StringLength(50), Required]
+        [StringLength(50)]
         public string? ModifiedBy { get; set; }
 
         /// <summary>
         /// Modified Date
         /// </summary>
-        [Required]
-        public DateTime ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
 
 
     }

@@ -1,6 +1,15 @@
+using MBDEVproAPI.DataModel;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Register services directly in Program.cs
+builder.Services.AddDbContext<MBDEVproAPIDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//builder.Services.AddTransient<ICustomerService, CustomerService>();
+//builder.Services.AddScoped<ISomeService, SomeService>();
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

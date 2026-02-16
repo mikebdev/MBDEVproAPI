@@ -12,7 +12,7 @@ namespace MBDEVproAPI.Common.Models
         /// Created By for entities
         /// </summary>
         [StringLength(50), Required]
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         /// <summary>
         /// Created Date for entities
@@ -24,7 +24,7 @@ namespace MBDEVproAPI.Common.Models
         /// Modified By 
         /// </summary>
         [StringLength(50), Required]
-        public string ModifiedBy { get; set; }
+        public string? ModifiedBy { get; set; }
 
         /// <summary>
         /// Modified Date

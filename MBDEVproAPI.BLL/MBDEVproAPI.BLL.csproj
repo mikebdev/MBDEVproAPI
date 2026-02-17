@@ -16,4 +16,9 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="10.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MBDEVproAPI.Common\MBDEVproAPI.Common.csproj" />
+    <ProjectReference Include="..\MBDEVproAPI.Repository\MBDEVproAPI.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

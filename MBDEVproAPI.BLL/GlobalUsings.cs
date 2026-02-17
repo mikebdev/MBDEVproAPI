@@ -1,0 +1,16 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Data;
+global using System.Linq;
+global using System.Reflection;
+global using System.Transactions;
+//global using MBDEVproAPI.BLL.Interfaces;
+global using MBDEVproAPI.Common.Models;
+global using MBDEVproAPI.Common.ViewModels;
+//global using MBDEVproAPI.Common.ViewModels.Shared;
+//global using MBDEVproAPI.Repository.Interfaces;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.Extensions.Caching.Memory;
+global using Microsoft.Extensions.Configuration;
+global using Serilog;
+global using Serilog.Formatting.Json;

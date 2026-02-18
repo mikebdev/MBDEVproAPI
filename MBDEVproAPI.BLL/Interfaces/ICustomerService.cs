@@ -2,7 +2,7 @@
 
 namespace MBDEVproAPI.BLL.Interfaces
 {
-    internal interface ICustomerService 
+    public interface ICustomerService : IBaseService<CustomerModel>
     {
     }
 }

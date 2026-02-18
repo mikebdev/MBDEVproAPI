@@ -1,4 +1,4 @@
-using MBDEVproAPI.DataModel;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MBDEVproAPIDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//builder.Services.AddTransient<ICustomerService, CustomerService>();
+//IServiceCollection serviceCollection = builder.Services.AddTransient<ICustomerService, CustomerService>();
+builder.Services.AddTransient<ICustomerService, CustomerService>();
 //builder.Services.AddScoped<ISomeService, SomeService>();
 
 

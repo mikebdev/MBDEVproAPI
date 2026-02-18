@@ -1,8 +1,7 @@
 ﻿
-
 namespace MBDEVproAPI.BLL.Services 
 {
-    internal class CustomerService
+    public class CustomerService : ICustomerService
     {
     }
 }

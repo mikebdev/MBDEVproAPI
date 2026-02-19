@@ -8,6 +8,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 
 //IServiceCollection serviceCollection = builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
+builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 //builder.Services.AddScoped<ISomeService, SomeService>();
 
 

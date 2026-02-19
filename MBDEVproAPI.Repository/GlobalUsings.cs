@@ -2,8 +2,8 @@
 global using System.Collections.Generic;
 global using System.Data;
 global using System.Linq;
-//global using MBDEVproAPI.DataModel.Entities;
-//global using MBDEVproAPI.Repository.Interfaces;
+global using MBDEVproAPI.DataModel.Entities;
+global using MBDEVproAPI.Repository.Interfaces;
 global using Microsoft.Extensions.Configuration;
 global using Serilog;
 global using Serilog.Formatting.Json;

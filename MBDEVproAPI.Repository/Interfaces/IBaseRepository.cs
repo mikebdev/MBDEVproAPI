@@ -26,9 +26,9 @@ namespace MBDEVproAPI.Repository.Interfaces
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
+        /// 
         /// <returns></returns>
-        IEnumerable<T> GetAll(int id);
+        IEnumerable<T> GetAll();
 
         /// <summary>
         /// 

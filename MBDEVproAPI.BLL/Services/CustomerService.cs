@@ -1,6 +1,7 @@
 ﻿
-using MBDEVproAPI.DataModel;
-using Microsoft.AspNetCore.Http.HttpResults;
+
+
+using MBDEVproAPI.Repository.Interfaces;
 
 namespace MBDEVproAPI.BLL.Services 
 {
@@ -8,20 +9,44 @@ namespace MBDEVproAPI.BLL.Services
     {
 
         private readonly MBDEVproAPIDbContext _databaseContext;
+        private readonly ICustomerService _customerService; 
+        private readonly ICustomerRepository _customerRepository;
 
-        public CustomerService(MBDEVproAPIDbContext databaseContext)
+        public CustomerService(MBDEVproAPIDbContext databaseContext, ICustomerService customerService, ICustomerRepository customerRepository )
         {
             _databaseContext = databaseContext;
+            _customerService = customerService;
+            _customerRepository = customerRepository;
         }
 
+
+        #region Get all Customers
         /// <summary>
         /// GET ALL: Customers
         /// </summary>
         /// <returns></returns>
         public IEnumerable<CustomerModel> GetAllCustomers()
         {
-            throw new NotImplementedException();
+            var customers = _customerRepository.GetAll().ToList();
+          
+            if (customers == null)
+
+            {
+                Log.Error("Customers API: CustomerService(GetAllCustomers); (customers == null");
+                return null;
+            }
+            else
+            {
+                return customers;
+            }
         }
+        #endregion
+
+
+
+
+
+
 
         /// <summary>
         /// GET: Customer
@@ -66,6 +91,7 @@ namespace MBDEVproAPI.BLL.Services
         {
             throw new NotImplementedException();
         }
+
 
     }
 }

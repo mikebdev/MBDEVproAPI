@@ -31,7 +31,31 @@ namespace MBDEVproAPI.Repository.Repositories
 
 
 
-
+        public IEnumerable<CustomerModel> GetAll()
+        {
+            return _context.Customers.Select(x => new CustomerModel
+            {
+                CustomerID = x.CustomerID,
+                Company = x.Company,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Email = x.Email,
+                Title = x.Title,
+                BPhone = x.BPhone,
+                HPhone = x.HPhone,
+                MPhone = x.MPhone,
+                Fax = x.Fax,
+                Address = x.Address,
+                City = x.City,
+                State = x.State,
+                ZIPCode = x.ZIPCode,
+                Country = x.Country,
+                WebPage = x.WebPage,
+                Notes = x.Notes,
+                Photo = x.Photo,
+                Map = x.Map
+            }).ToList();
+        }
 
 
         public void Add(CustomerModel obj)
@@ -39,10 +63,7 @@ namespace MBDEVproAPI.Repository.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<CustomerModel> GetAll(int id)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public CustomerModel GetByID(int? id)
         {

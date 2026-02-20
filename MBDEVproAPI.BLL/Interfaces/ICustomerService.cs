@@ -9,7 +9,7 @@ namespace MBDEVproAPI.BLL.Interfaces
     {
 
         IEnumerable<CustomerModel> GetAllCustomers();
-        
+
         CustomerModel GetCustomer(int id);
 
         SaveViewModel CreateCustomer(CustomerModel model);

@@ -1,5 +1,8 @@
 ﻿
 
+using MBDEVproAPI.DataModel.Entities;
+using System.Collections;
+
 namespace MBDEVproAPI.API.Controllers 
 {
     public class CustomerController : BaseController
@@ -16,6 +19,62 @@ namespace MBDEVproAPI.API.Controllers
         #endregion
 
 
+
+        #region Get All Customers
+        //[HttpGet]
+        //public IEnumerable<CustomerModel> GetAllGetAllCustomers()
+        //{
+        //    if (id == 0)
+        //    {
+        //        Log.Error("Customer API: GetAllGetAllCustomers; ()");
+        //    }
+        //    return (IEnumerable<CustomerModel>)Ok(_customerService.GetAllCustomers);
+        //}
+        #endregion
+
+        // GET: api/GetAllGetAllCustomers
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Customer>>> GetAllGetAllCustomers()
+        //{
+        //    var customers = await _customerService.GetAllCustomers();
+
+        //    if (customers == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return customers;
+        //}
+
+
+        //EXAMPLE
+        #region Get All Customers
+        [HttpGet("{id}")]
+        public IEnumerable<CustomerModel> GetAllCustomers()
+        {
+            return (IEnumerable<CustomerModel>)Ok(_customerService.GetAllCustomers());
+        }
+        #endregion
+
+
+
+
+
+
+
+        //// GET: api/Customer/5
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<CustomerModel>> GetCustomer(int id)
+        //{
+        //    var customer = await _context.Customers.FindAsync(id);
+
+        //    if (customer == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return customer;
+        //}
 
 
 

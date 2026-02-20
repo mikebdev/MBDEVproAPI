@@ -12,3 +12,6 @@ global using Microsoft.Extensions.Caching.Memory;
 global using Microsoft.Extensions.Configuration;
 global using Serilog;
 global using Serilog.Formatting.Json;
+global using MBDEVproAPI.DataModel;
+global using MBDEVproAPI.DataModel.Entities;
+global using Microsoft.AspNetCore.Http.HttpResults;

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MBDEVproAPI.DataModel.Migrations
 {
     [DbContext(typeof(MBDEVproAPIDbContext))]
-    [Migration("20260216012226_CustomerTableInit")]
-    partial class CustomerTableInit
+    [Migration("20260222220338_CustomersTable")]
+    partial class CustomersTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace MBDEVproAPI.DataModel.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MBDEVproAPI.Common.Models.Customer", b =>
+            modelBuilder.Entity("MBDEVproAPI.DataModel.Entities.Customer", b =>
                 {
                     b.Property<int>("CustomerID")
                         .ValueGeneratedOnAdd()
@@ -42,6 +42,9 @@ namespace MBDEVproAPI.DataModel.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<int>("BusinessID")
+                        .HasColumnType("int");
+
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(75)
@@ -57,10 +60,11 @@ namespace MBDEVproAPI.DataModel.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -95,10 +99,11 @@ namespace MBDEVproAPI.DataModel.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("ModifiedBy")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime?>("ModifiedDate")
+                    b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Notes")

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MBDEVproAPI.DataModel.Migrations
 {
     /// <inheritdoc />
-    public partial class CustomerTableInit : Migration
+    public partial class CustomersTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,6 +17,7 @@ namespace MBDEVproAPI.DataModel.Migrations
                 {
                     CustomerID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    BusinessID = table.Column<int>(type: "int", nullable: false),
                     Company = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
@@ -35,10 +36,10 @@ namespace MBDEVproAPI.DataModel.Migrations
                     Notes = table.Column<string>(type: "nvarchar(max)", maxLength: 4010, nullable: true),
                     Photo = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: true),
                     Map = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

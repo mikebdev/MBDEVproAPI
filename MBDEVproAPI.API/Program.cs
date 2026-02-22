@@ -6,10 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MBDEVproAPIDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//IServiceCollection serviceCollection = builder.Services.AddTransient<ICustomerService, CustomerService>();
+// SERVICES
 builder.Services.AddTransient<ICustomerService, CustomerService>();
+
+
+// REPOSITORIES
 builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
-//builder.Services.AddScoped<ISomeService, SomeService>();
+
 
 
 

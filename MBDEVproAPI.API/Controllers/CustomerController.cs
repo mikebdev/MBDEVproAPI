@@ -1,15 +1,14 @@
 ﻿
-
-using MBDEVproAPI.DataModel.Entities;
-using System.Collections;
-
 namespace MBDEVproAPI.API.Controllers 
 {
+
+    //[ApiController]
+    //[Route("[controller]")]
     public class CustomerController : BaseController
     {
 
         #region variables and constructors
-        /*private readonly MBDEVproAPIDbContext _context*/
+
         private ICustomerService _customerService;
 
         public CustomerController(ICustomerService customerService)
@@ -20,17 +19,28 @@ namespace MBDEVproAPI.API.Controllers
 
 
 
-        #region Get All Customers
-        //[HttpGet]
-        //public IEnumerable<CustomerModel> GetAllGetAllCustomers()
-        //{
-        //    if (id == 0)
-        //    {
-        //        Log.Error("Customer API: GetAllGetAllCustomers; ()");
-        //    }
-        //    return (IEnumerable<CustomerModel>)Ok(_customerService.GetAllCustomers);
-        //}
-        #endregion
+        #region GET: all customers
+        /// <summary>
+        /// GET: returns all Citation Types for a Project
+        /// "CustomerControllerGetAllCustomers": "Customer/GetAllCustomers",
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<CustomerModel> GetAllCustomers(int BusinessID)
+        {
+            try
+            {
+                var customers = _customerService.GetAllCustomers(BusinessID);
+                // can check null here.
+                return Ok(customers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Customer API error: " + ex.Message + " | " + ex.InnerException);
+            }
+        }
+
+
 
         // GET: api/GetAllGetAllCustomers
         //[HttpGet]
@@ -47,15 +57,15 @@ namespace MBDEVproAPI.API.Controllers
         //}
 
 
-        //EXAMPLE
-        #region Get All Customers
-        [HttpGet("{id}")]
-        public IEnumerable<CustomerModel> GetAllCustomers()
-        {
-            return (IEnumerable<CustomerModel>)Ok(_customerService.GetAllCustomers());
-        }
+        ////EXAMPLE
+        //#region Get All Customers
+        //[HttpGet("{id}")]
+        //public IEnumerable<CustomerModel> GetAllCustomers()
+        //{
+        //    return (IEnumerable<CustomerModel>)Ok(_customerService.GetAllCustomers());
+        //}
+        //#endregion
         #endregion
-
 
 
 

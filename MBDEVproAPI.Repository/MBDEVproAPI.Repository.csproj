@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MBDEVproAPI.Common\MBDEVproAPI.Common.csproj" />
     <ProjectReference Include="..\MBDEVproAPI.DataModel\MBDEVproAPI.DataModel.csproj" />
   </ItemGroup>
 

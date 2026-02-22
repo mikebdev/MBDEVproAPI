@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace MBDEVproAPI.API.Controllers  
+﻿namespace MBDEVproAPI.API.Controllers  
 {
 
     [ApiController, AllowAnonymous, Route("api/[controller]/[action]")]

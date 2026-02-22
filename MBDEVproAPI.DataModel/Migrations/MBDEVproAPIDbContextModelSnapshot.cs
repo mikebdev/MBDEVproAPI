@@ -22,7 +22,7 @@ namespace MBDEVproAPI.DataModel.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MBDEVproAPI.Common.Models.Customer", b =>
+            modelBuilder.Entity("MBDEVproAPI.DataModel.Entities.Customer", b =>
                 {
                     b.Property<int>("CustomerID")
                         .ValueGeneratedOnAdd()
@@ -39,6 +39,9 @@ namespace MBDEVproAPI.DataModel.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<int>("BusinessID")
+                        .HasColumnType("int");
+
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(75)
@@ -54,10 +57,11 @@ namespace MBDEVproAPI.DataModel.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -92,10 +96,11 @@ namespace MBDEVproAPI.DataModel.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("ModifiedBy")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime?>("ModifiedDate")
+                    b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Notes")

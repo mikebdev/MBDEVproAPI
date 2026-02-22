@@ -8,36 +8,38 @@ namespace MBDEVproAPI.BLL.Services
     public class CustomerService : ICustomerService
     {
 
+        #region variables & constructors
         private readonly MBDEVproAPIDbContext _databaseContext;
-        private readonly ICustomerService _customerService; 
         private readonly ICustomerRepository _customerRepository;
 
-        public CustomerService(MBDEVproAPIDbContext databaseContext, ICustomerService customerService, ICustomerRepository customerRepository )
+        public CustomerService(MBDEVproAPIDbContext databaseContext, ICustomerRepository customerRepository )
         {
             _databaseContext = databaseContext;
-            _customerService = customerService;
             _customerRepository = customerRepository;
         }
+        #endregion
 
 
         #region Get all Customers
         /// <summary>
         /// GET ALL: Customers
         /// </summary>
+        /// <param name="BusinessID"></param>
         /// <returns></returns>
-        public IEnumerable<CustomerModel> GetAllCustomers()
+        public CustomerModel GetAllCustomers(int BusinessID)
         {
-            var customers = _customerRepository.GetAll().ToList();
+            var customers = _customerRepository.GetAll(BusinessID).ToList();
           
             if (customers == null)
 
             {
                 Log.Error("Customers API: CustomerService(GetAllCustomers); (customers == null");
-                return null;
+                return null; // return empty model?
             }
             else
             {
-                return customers;
+                //return customers;
+                return null;
             }
         }
         #endregion

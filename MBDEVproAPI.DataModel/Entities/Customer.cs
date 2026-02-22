@@ -6,12 +6,8 @@ namespace MBDEVproAPI.DataModel.Entities
     /// Customer Entity
     /// </summary>
     [Table("Customers")]
-    public partial class Customer /*: TrackHistoryTableAndTrigger*/
+    public partial class Customer : TrackHistoryTableAndTrigger
     {
-        public Customer()
-        {
-
-        }
 
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
@@ -32,6 +28,8 @@ namespace MBDEVproAPI.DataModel.Entities
         //[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         //public string ConfirmPassword { get; set; }
 
+        [Required]
+        public int BusinessID { get; set; }
 
         [StringLength(50)]
         [DataType(DataType.Text)]

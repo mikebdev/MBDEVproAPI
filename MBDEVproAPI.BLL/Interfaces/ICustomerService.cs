@@ -8,7 +8,7 @@ namespace MBDEVproAPI.BLL.Interfaces
     public interface ICustomerService : IBaseService<CustomerModel>
     {
 
-        IEnumerable<CustomerModel> GetAllCustomers();
+        CustomerModel GetAllCustomers(int BusinessID);
 
         CustomerModel GetCustomer(int id);
 

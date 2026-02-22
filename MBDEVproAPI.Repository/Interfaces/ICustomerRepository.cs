@@ -5,7 +5,9 @@ using System.Text;
 
 namespace MBDEVproAPI.Repository.Interfaces
 {
-    public interface ICustomerRepository : IBaseRepository<CustomerModel>
+    public interface ICustomerRepository : IBaseRepository<Customer>
     {
+
+
     }
 }

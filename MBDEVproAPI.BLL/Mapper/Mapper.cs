@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-namespace MBDEVproAPI.BLL.Mapper
+namespace MBDEVproAPI.BLL
 {
 
     internal class Mapper

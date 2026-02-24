@@ -1,10 +1,10 @@
-﻿
-namespace MBDEVproAPI.API.Controllers 
+﻿namespace MBDEVproAPI.API.Controllers 
 {
 
     //[ApiController]
     //[Route("[controller]")]
-    public class CustomerController : BaseController
+    [ApiController, AllowAnonymous, Route("api/[controller]/[action]")]
+    public class CustomerController : ControllerBase //: BaseController
     {
 
         #region variables and constructors
@@ -18,20 +18,56 @@ namespace MBDEVproAPI.API.Controllers
         #endregion
 
 
+        #region 
+        #endregion
 
-        #region GET: all customers
+
+        #region CustomerViewModel
+        ///// <summary>
+        ///// GET: Gets all customers for a business.  
+        ///// https://localhost:7092/api/Customer/GetAllCustomers/52466
+        ///// "CustomerControllerGetAllCustomers": "Customer/GetAllCustomers",
+        ///// </summary>
+        ///// <param name="BusinessID"></param>
+        ///// <returns></returns>
+        //[Route("GetAllCustomers")]
+        //[HttpGet("{BusinessID}")]
+        //public ActionResult<CustomerViewModel> GetAllCustomers(int BusinessID)
+        //{
+        //    BusinessID = 52466; // temp hard code for testing, can remove later.
+        //    try
+        //    {
+        //        var customers = _customerService.GetAllCustomers(BusinessID);
+        //        // can check null here and model is valid.
+        //        return Ok(customers);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest("Customer API error: " + ex.Message + " | " + ex.InnerException);
+        //    }
+        //}
+
         /// <summary>
-        /// GET: returns all Citation Types for a Project
-        /// "CustomerControllerGetAllCustomers": "Customer/GetAllCustomers",
+        /// GET: Gets all customers for a business.  
+        /// https://localhost:7092/api/Customer/GetAllCustomersAsync/52466
+        /// "CustomerControllerGetAllCustomersAsync": "Customer/GetAllCustomersAsync",
         /// </summary>
+        /// <param name="BusinessID"></param>
         /// <returns></returns>
-        [HttpGet]
-        public ActionResult<CustomerModel> GetAllCustomers(int BusinessID)
+        //[Route("GetAllCustomersAsync")]
+        [HttpGet("{BusinessID}")]
+            public async Task<ActionResult<CustomerViewModel>> GetAllCustomersAsync(int BusinessID)
         {
+            BusinessID = 52466; // temp hard code for testing, can remove later.
             try
             {
-                var customers = _customerService.GetAllCustomers(BusinessID);
-                // can check null here.
+                var customers = await _customerService.GetAllCustomersAsync(BusinessID);
+
+                if (customers == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok(customers);
             }
             catch (Exception ex)
@@ -39,44 +75,17 @@ namespace MBDEVproAPI.API.Controllers
                 return BadRequest("Customer API error: " + ex.Message + " | " + ex.InnerException);
             }
         }
-
-
-
-        // GET: api/GetAllGetAllCustomers
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Customer>>> GetAllGetAllCustomers()
-        //{
-        //    var customers = await _customerService.GetAllCustomers();
-
-        //    if (customers == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return customers;
-        //}
-
-
-        ////EXAMPLE
-        //#region Get All Customers
-        //[HttpGet("{id}")]
-        //public IEnumerable<CustomerModel> GetAllCustomers()
-        //{
-        //    return (IEnumerable<CustomerModel>)Ok(_customerService.GetAllCustomers());
-        //}
-        //#endregion
         #endregion
 
 
 
-
-
+        #region Get Customer
 
         //// GET: api/Customer/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<CustomerModel>> GetCustomer(int id)
+        //[HttpGet("{CustomerID}")]
+        //public async Task<ActionResult<Customer>> GetCustomerAsync(int CustomerID)
         //{
-        //    var customer = await _context.Customers.FindAsync(id);
+        //    var customer = await _context.Customers.FindAsync(CustomerID);
 
         //    if (customer == null)
         //    {
@@ -85,29 +94,8 @@ namespace MBDEVproAPI.API.Controllers
 
         //    return customer;
         //}
+        #endregion
 
-
-
-        //// GET: api/Customer
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
-        //{
-        //    return await _context.Customers.ToListAsync();
-        //}
-
-        //// GET: api/Customer/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Customer>> GetCustomer(int id)
-        //{
-        //    var customer = await _context.Customers.FindAsync(id);
-
-        //    if (customer == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return customer;
-        //}
 
         //// PUT: api/Customer/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -171,5 +159,12 @@ namespace MBDEVproAPI.API.Controllers
         //{
         //    return _context.Customers.Any(e => e.CustomerID == id);
         //}
+
     }
+
 }
+
+
+
+
+

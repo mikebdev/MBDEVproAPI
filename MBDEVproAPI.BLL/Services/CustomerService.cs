@@ -1,52 +1,174 @@
-﻿
+﻿namespace MBDEVproAPI.BLL.Services {
 
 
-using MBDEVproAPI.Repository.Interfaces;
-
-namespace MBDEVproAPI.BLL.Services 
-{
     public class CustomerService : ICustomerService
     {
 
         #region variables & constructors
-        private readonly MBDEVproAPIDbContext _databaseContext;
+        private readonly MBDEVproAPIDbContext _context;
+
+        //private IHttpContextAccessor _contextAccessor;
+
+        /// <summary>
+        /// Base Repository
+        /// </summary>
         private readonly ICustomerRepository _customerRepository;
 
-        public CustomerService(MBDEVproAPIDbContext databaseContext, ICustomerRepository customerRepository )
+        ///// <summary>
+        ///// memory cache
+        ///// </summary>
+        //private IMemoryCache _memoryCache;
+
+        ///// <summary>
+        ///// configuration
+        ///// </summary>
+        //public IConfiguration _configuration { get; }
+
+
+
+
+        public CustomerService(MBDEVproAPIDbContext context, ICustomerRepository customerRepository)
         {
-            _databaseContext = databaseContext;
+            _context = context;
             _customerRepository = customerRepository;
         }
         #endregion
 
 
-        #region Get all Customers
+        #region CustomerViewModel
         /// <summary>
-        /// GET ALL: Customers
+        /// GET: Customers
         /// </summary>
         /// <param name="BusinessID"></param>
         /// <returns></returns>
-        public CustomerModel GetAllCustomers(int BusinessID)
+        public CustomerViewModel GetAllCustomers(int BusinessID)
         {
-            var customers = _customerRepository.GetAll(BusinessID).ToList();
-          
-            if (customers == null)
-
+            try
             {
-                Log.Error("Customers API: CustomerService(GetAllCustomers); (customers == null");
-                return null; // return empty model?
+                if (BusinessID == 0)
+                {
+                    Log.Error("Customer API: CustomerService(GetAllCustomers); (BusinessID == 0)");
+                    return null;
+                }
+                else
+                {
+                    CustomerViewModel model = new CustomerViewModel();
+                    model.CustomerList = _customerRepository.GetAllCustomers(BusinessID).Select(O => Mapper.MapObject(O, new CustomerModel())).ToList();
+                    //model.BusinessID = BusinessID;
+                    if (model == null)
+                    {
+                        Log.Error("Customer API: CustomerService(GetAllCustomers); (model == null)");
+                        return null;
+                    }
+                    else
+                    {
+                        return model;
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                //return customers;
+                Log.Error("Customer API: CustomerService(GetAllCustomers); (" + ex + ")" + " (" + ex.InnerException + ")");
                 return null;
             }
         }
+
+        /// <summary>
+        /// GET: Customers async
+        /// </summary>
+        /// <param name="BusinessID"></param>
+        /// <returns></returns>
+        public async Task<CustomerViewModel> GetAllCustomersAsync(int BusinessID)
+        {
+            try
+            {
+                if (BusinessID == 0)
+                {
+                    Log.Error("Customer API: CustomerService(GetAllCustomersAsync); (BusinessID == 0)");
+                    return null;
+                }
+                else
+                {
+                    CustomerViewModel model = new CustomerViewModel();
+                    var customers = await _customerRepository.GetAllCustomersAsync(BusinessID);
+
+                    if (customers == null)
+                    {
+                        Log.Error("Customer API: CustomerService(GetAllCustomersAsync); (customers == null)");
+                        return null;
+                    }
+
+                    model.CustomerList = customers.Select(o => Mapper.MapObject(o, new CustomerModel())).ToList();
+                    return model;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Customer API: CustomerService(GetAllCustomersAsync); (" + ex + ")" + " (" + ex.InnerException + ")");
+                return null;
+            }
+        }
+
+
+
+
+
+        //public IncidentViewModel GetIncidentsByProjectID(int ProjectID)
+        //{
+        //    IncidentViewModel model = new IncidentViewModel();
+        //    try
+        //    {
+        //        if (ProjectID == 0)
+        //        {
+        //            Log.Error("Incidents API: IncidentService(GetIncidentsByProjectID); (ProjectID == 0)");
+        //            return model;
+        //        }
+        //        else
+        //        {
+        //            model = Mapper.MapObject(_incidentRepository.GetIncidentsByProjectID(ProjectID), new IncidentViewModel());
+
+        //            if (model == null)
+        //            {
+        //                Log.Error("Incidents API: IncidentService(GetIncidentsByProjectID); (model == null)");
+        //                return model;
+        //            }
+        //            else
+        //            {
+        //                // INCIDENTS
+        //                model.IncidentList = (List<IncidentModel>)GetIncidents(ProjectID);
+        //                return model;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error("Incidents API: IncidentService(GetIncidentsByProjectID); (" + ex + ")" + " (" + ex.InnerException + ")");
+        //        return model;
+        //    }
+        //    finally
+        //    {
+
+        //    }
+        //}
+
+
+
+
+        //BusinessID = 52466; // temp hard coded for testing; need to get from token or pass in as parameter
+        //    var customers = _customerRepository.GetAll(BusinessID).ToList();
+
+        //    if (customers == null)
+
+        //    {
+        //        Log.Error("Customers API: CustomerService(GetAllCustomers); (customers == null");
+        //        return null; // return empty model?
+        //    }
+        //    else
+        //    {
+        //        return customers.ToList();
+        //    }
+        //}
         #endregion
-
-
-
-
 
 
 
@@ -95,5 +217,24 @@ namespace MBDEVproAPI.BLL.Services
         }
 
 
+
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

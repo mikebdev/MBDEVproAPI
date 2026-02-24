@@ -7,3 +7,6 @@ global using MBDEVproAPI.Repository.Interfaces;
 global using Microsoft.Extensions.Configuration;
 global using Serilog;
 global using Serilog.Formatting.Json;
+global using MBDEVproAPI.Common.Models;
+global using MBDEVproAPI.Common.ViewModels;
+global using System.Text;

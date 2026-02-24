@@ -5,7 +5,10 @@ Accept: application/json
 
 ###
 
+GET {{MBDEVproAPI.API_HostAddress}}/customer
+Accept: application/json
+
 ###
 
-GET {{MBDEVproAPI.API_HostAddress}}/Customer
+GET {{MBDEVproAPI.API_HostAddress}}/Getall
 Accept: application/json

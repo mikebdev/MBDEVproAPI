@@ -2,6 +2,7 @@
 {
 
     [ApiController, AllowAnonymous, Route("api/[controller]/[action]")]
+
     public class BaseController : Controller
     {
 

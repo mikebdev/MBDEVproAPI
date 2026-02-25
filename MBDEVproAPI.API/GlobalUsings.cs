@@ -7,6 +7,7 @@ global using MBDEVproAPI.Common.ViewModels;
 global using MBDEVproAPI.BLL.Interfaces;
 global using MBDEVproAPI.BLL.Services;
 global using MBDEVproAPI.DataModel;
+global using MBDEVproAPI.DataModel.Entities;
 global using MBDEVproAPI.Repository.Interfaces;
 global using MBDEVproAPI.Repository.Repositories;
 global using Microsoft.AspNetCore.Authorization;

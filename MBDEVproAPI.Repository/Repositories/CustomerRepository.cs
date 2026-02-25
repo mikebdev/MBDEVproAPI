@@ -34,14 +34,12 @@ namespace MBDEVproAPI.Repository.Repositories
 
 
 
-        #region async methods
-        public async Task<IEnumerable<Customer>> GetAllAysnc(int BusinessID)
-        {
-            var customers = await _context.Customers.Where(O => O.BusinessID == BusinessID).ToListAsync();
-
-            return customers;
-        }
-
+        #region Get All Customers Async
+        /// <summary>
+        /// GET: Get All Customers Async
+        /// </summary>
+        /// <param name="BusinessID"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync(int BusinessID)
         {
             var customers = await _context.Customers.Where(O => O.BusinessID == BusinessID).ToListAsync();
@@ -50,29 +48,38 @@ namespace MBDEVproAPI.Repository.Repositories
         #endregion
 
 
-
-
-        #region regular methods
-
+        #region Get Customer by CustomerID Async
+        public async Task<Customer> GetCustomerAsync(int CustomerID)
+        {
+            var customer = await _context.Customers.Where(O => O.CustomerID == CustomerID).FirstOrDefaultAsync();
+            if (customer == null)
+            {
+                Log.Error("Customer API: CustomerRepository(GetCustomerAsync); (customer == null)");
+                return new Customer();
+            }
+            else
+            {
+                return customer;
+            }
+        }
         #endregion
 
 
 
-        #region Customer
+
+
+
+
+
+
+
+        #region other
         public IEnumerable<Customer> GetAll(int BusinessID)
-        {
-            var customers = _context.Customers.Where(O => O.BusinessID == BusinessID).ToList(); 
-
-            return customers;
-        }
-
-        public IEnumerable<Customer> GetAllCustomers(int BusinessID)
         {
             var customers = _context.Customers.Where(O => O.BusinessID == BusinessID).ToList();
 
             return customers;
         }
-
 
         ///// <summary>
         ///// Get a single record by ID
@@ -99,20 +106,6 @@ namespace MBDEVproAPI.Repository.Repositories
         {
             throw new NotImplementedException();
         }
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="ProjectID"></param>
-        ///// <param name="CitationTypeID"></param>
-        ///// <returns></returns>
-        //public CitationType GetByID(int ProjectID, int? CitationTypeID)
-        //{
-        //    return _context.CitationType
-        //        .Where(O => O.ProjectID == ProjectID && O.CitationTypeID == CitationTypeID).FirstOrDefault();
-        //}
-
-
 
         public void Remove(int BusinessID, Customer obj)
         {

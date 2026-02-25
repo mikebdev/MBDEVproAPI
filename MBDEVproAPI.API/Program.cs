@@ -1,4 +1,6 @@
 
+using Scalar.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //DATABASE CONNECTION
@@ -46,7 +48,9 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapOpenApi(); // Expose the OpenAPI JSON endpoint
+    app.MapScalarApiReference(); // Map the Scalar UI endpoint
+
     Log.Information("MBDEVproAPI: (Development Environment)");
     app.UseDeveloperExceptionPage();
 }
@@ -77,6 +81,13 @@ if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Test"
         // JSON: https://localhost:7092/swagger/v1/swagger.json
     });
 }
+
+app.MapScalarApiReference(options =>
+{
+    options.Title = "MBDEVproAPI v1 .NET CORE 10";
+    options.WithTheme(ScalarTheme.Moon); // Use a specific theme
+    options.ForceDarkMode(); // Force dark mode
+});
 
 
 

@@ -1,14 +1,17 @@
-@MBDEVproAPI.API_HostAddress = http://localhost:5126
+@MBDEVproAPI.API_HostAddress = http://localhost:7092
 
 GET {{MBDEVproAPI.API_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
 
-GET {{MBDEVproAPI.API_HostAddress}}/customer
+GET {{MBDEVproAPI.API_HostAddress}}/api/Customer/GetAllCustomers?BusinessID=52466
 Accept: application/json
+// https://localhost:7092/api/Customer/GetAllCustomers/52466
+// https://localhost:7092/api/Customer/GetAllCustomers?BusinessID=52466
 
 ###
 
-GET {{MBDEVproAPI.API_HostAddress}}/Getall
+GET {{MBDEVproAPI.API_HostAddress}}/api/Customer/GetCustomer/3
 Accept: application/json
+// https://localhost:7092/api/Customer/GetCustomer?CustomerID=3

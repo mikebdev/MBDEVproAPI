@@ -1,10 +1,8 @@
-﻿namespace MBDEVproAPI.API.Controllers 
-{
+﻿
 
-    //[ApiController]
-    //[Route("[controller]")]
-    [ApiController, AllowAnonymous, Route("api/[controller]/[action]")]
-    public class CustomerController : ControllerBase //: BaseController
+namespace MBDEVproAPI.API.Controllers 
+{
+    public class CustomerController : BaseController
     {
 
         #region variables and constructors
@@ -23,40 +21,17 @@
 
 
         #region CustomerViewModel
-        ///// <summary>
-        ///// GET: Gets all customers for a business.  
-        ///// https://localhost:7092/api/Customer/GetAllCustomers/52466
-        ///// "CustomerControllerGetAllCustomers": "Customer/GetAllCustomers",
-        ///// </summary>
-        ///// <param name="BusinessID"></param>
-        ///// <returns></returns>
-        //[Route("GetAllCustomers")]
-        //[HttpGet("{BusinessID}")]
-        //public ActionResult<CustomerViewModel> GetAllCustomers(int BusinessID)
-        //{
-        //    BusinessID = 52466; // temp hard code for testing, can remove later.
-        //    try
-        //    {
-        //        var customers = _customerService.GetAllCustomers(BusinessID);
-        //        // can check null here and model is valid.
-        //        return Ok(customers);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest("Customer API error: " + ex.Message + " | " + ex.InnerException);
-        //    }
-        //}
-
         /// <summary>
         /// GET: Gets all customers for a business.  
-        /// https://localhost:7092/api/Customer/GetAllCustomersAsync/52466
-        /// "CustomerControllerGetAllCustomersAsync": "Customer/GetAllCustomersAsync",
+        /// TEST URL: https://localhost:7092/api/Customer/GetAllCustomers/52466 | https://localhost:7092/api/Customer/GetAllCustomers?BusinessID=52466
+        /// "CustomerControllerGetAllCustomers": "Customer/GetAllCustomers",
         /// </summary>
         /// <param name="BusinessID"></param>
         /// <returns></returns>
-        //[Route("GetAllCustomersAsync")]
-        [HttpGet("{BusinessID}")]
-            public async Task<ActionResult<CustomerViewModel>> GetAllCustomersAsync(int BusinessID)
+        //[Route("GetAllCustomers")]
+        //[HttpGet("{BusinessID}")]
+        [HttpGet]
+        public async Task<ActionResult<CustomerViewModel>> GetAllCustomersAsync(int BusinessID)
         {
             BusinessID = 52466; // temp hard code for testing, can remove later.
             try
@@ -80,26 +55,35 @@
 
 
         #region Get Customer
-
-        //// GET: api/Customer/5
+        /// <summary>
+        /// GET: Gets a customer for a business.  
+        /// TEST URL: https://localhost:7092/api/Customer/GetCustomer/3 | https://localhost:7092/api/Customer/GetCustomer?CustomerID=3  
+        /// "CustomerControllerGetCustomer": "Customer/GetCustomer",
+        /// </summary>
+        /// <param name="CustomerID"></param>
+        /// <returns></returns>
+        //[Route("GetCustomer")]
         //[HttpGet("{CustomerID}")]
-        //public async Task<ActionResult<Customer>> GetCustomerAsync(int CustomerID)
-        //{
-        //    var customer = await _context.Customers.FindAsync(CustomerID);
+        [HttpGet]
+        public async Task<ActionResult<Customer>> GetCustomerAsync(int CustomerID)
+        {
+            var customer = await _customerService.GetCustomerAsync(CustomerID);
 
-        //    if (customer == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (customer == null)
+            {
+                return NotFound();
+            }
 
-        //    return customer;
-        //}
+            return customer;
+        }
         #endregion
 
 
-        //// PUT: api/Customer/5
+        //// PUT - CREATE: api/Customer/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         //[HttpPut("{id}")]
+
+        //[HttpPost]
         //public async Task<IActionResult> PutCustomer(int id, Customer customer)
         //{
         //    if (id != customer.CustomerID)

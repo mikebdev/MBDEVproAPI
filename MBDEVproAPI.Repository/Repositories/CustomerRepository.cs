@@ -34,12 +34,21 @@ namespace MBDEVproAPI.Repository.Repositories
 
 
 
-        #region Get All Customers Async
+        #region Get All Customers | CustomerViewModel
         /// <summary>
         /// GET: Get All Customers Async
         /// </summary>
         /// <param name="BusinessID"></param>
         /// <returns></returns>
+        public async Task<IEnumerable<Customer>> GetAllCustomersVMAsync(int BusinessID)
+        {
+            var customers = await _context.Customers.Where(O => O.BusinessID == BusinessID).ToListAsync();
+            return customers;
+        }
+        #endregion
+
+
+        #region Get All Customers | CustomerModel
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync(int BusinessID)
         {
             var customers = await _context.Customers.Where(O => O.BusinessID == BusinessID).ToListAsync();
@@ -48,7 +57,7 @@ namespace MBDEVproAPI.Repository.Repositories
         #endregion
 
 
-        #region Get Customer by CustomerID Async
+        #region Get All Customers | Customer
         public async Task<Customer> GetCustomerAsync(int CustomerID)
         {
             var customer = await _context.Customers.Where(O => O.CustomerID == CustomerID).FirstOrDefaultAsync();
@@ -66,7 +75,13 @@ namespace MBDEVproAPI.Repository.Repositories
 
 
 
-
+        #region Add Customer Async  
+        public async Task AddAsync(Customer customer)
+        {
+            await _context.Customers.AddAsync(customer);
+            await _context.SaveChangesAsync(); // Non-blocking save
+        }
+        #endregion
 
 
 
@@ -104,7 +119,7 @@ namespace MBDEVproAPI.Repository.Repositories
 
         public void Add(Customer obj)
         {
-            throw new NotImplementedException();
+            _context.Customers.Add(obj);
         }
 
         public void Remove(int BusinessID, Customer obj)
@@ -114,8 +129,10 @@ namespace MBDEVproAPI.Repository.Repositories
 
         public void SaveChanges()
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
+
+ 
 
 
         #endregion

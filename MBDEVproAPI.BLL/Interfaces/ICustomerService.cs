@@ -8,15 +8,17 @@ namespace MBDEVproAPI.BLL.Interfaces
     public interface ICustomerService : IBaseService<CustomerModel>
     {
 
-        //CustomerViewModel GetAllCustomers(int BusinessID);
+        Task<CustomerViewModel> GetAllCustomersVMAsync(int BusinessID);
 
-        Task<CustomerViewModel> GetAllCustomersAsync(int BusinessID);
+        Task<IEnumerable<CustomerModel>> GetAllCustomersAsync(int BusinessID);
 
 
         Task<Customer> GetCustomerAsync(int CustomerID);
 
+        Task<SaveViewModel> CreateCustomerVMAsync(CustomerViewModel vm);
 
-        //CustomerModel GetCustomer(int id);
+        Task<SaveViewModel> CreateCustomerAsync(CustomerModel model);
+
 
         SaveViewModel CreateCustomer(CustomerModel model);
 

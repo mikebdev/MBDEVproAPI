@@ -20,23 +20,23 @@ namespace MBDEVproAPI.API.Controllers
         #endregion
 
 
-        #region CustomerViewModel
+        #region Get All Customers | CustomerViewModel
         /// <summary>
-        /// GET: Gets all customers for a business.  
+        /// GET: Gets all customers for a business in a VM for web UI.  
         /// TEST URL: https://localhost:7092/api/Customer/GetAllCustomers/52466 | https://localhost:7092/api/Customer/GetAllCustomers?BusinessID=52466
-        /// "CustomerControllerGetAllCustomers": "Customer/GetAllCustomers",
+        /// "CustomerControllerGetAllCustomersVMAsync": "Customer/GetAllCustomersVMAsync",
         /// </summary>
         /// <param name="BusinessID"></param>
         /// <returns></returns>
         //[Route("GetAllCustomers")]
         //[HttpGet("{BusinessID}")]
         [HttpGet]
-        public async Task<ActionResult<CustomerViewModel>> GetAllCustomersAsync(int BusinessID)
+        public async Task<ActionResult<CustomerViewModel>> GetAllCustomersVMAsync(int BusinessID)
         {
             BusinessID = 52466; // temp hard code for testing, can remove later.
             try
             {
-                var customers = await _customerService.GetAllCustomersAsync(BusinessID);
+                var customers = await _customerService.GetAllCustomersVMAsync(BusinessID);
 
                 if (customers == null)
                 {
@@ -53,8 +53,37 @@ namespace MBDEVproAPI.API.Controllers
         #endregion
 
 
+        #region Get All Customers | CustomerModel
+        /// <summary>
+        /// GET: Gets all customers for a business.
+        /// TEST URL: https://localhost:7092/api/Customer/GetAllCustomers?BusinessID=52466
+        /// "CustomerControllerGetAllCustomersAsync": "Customer/GetAllCustomersAsync",
+        /// </summary>
+        /// <param name="BusinessID"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult<CustomerModel>> GetAllCustomersAsync(int BusinessID)
+        {
+            BusinessID = 52466; // temp hard code for testing, can remove later.
+            try
+            {
+                var customers = await _customerService.GetAllCustomersAsync(BusinessID);
+                if (customers == null)
+                {
+                    return NotFound();
+                }
+                return Ok(customers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Customer API error: " + ex.Message + " | " + ex.InnerException);
+            }
+        }
+        #endregion
 
-        #region Get Customer
+
+
+        #region Get Customer | Customer
         /// <summary>
         /// GET: Gets a customer for a business.  
         /// TEST URL: https://localhost:7092/api/Customer/GetCustomer/3 | https://localhost:7092/api/Customer/GetCustomer?CustomerID=3  
@@ -77,6 +106,39 @@ namespace MBDEVproAPI.API.Controllers
             return customer;
         }
         #endregion
+
+
+
+        #region Add Customer | CustomerViewModel   
+        /// <summary>
+        /// Create a new customer for a business from client web application using a CustomerViewModel.
+        /// </summary>
+        /// <param name="vm"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> CreateCustomerVMAsync([FromBody] CustomerViewModel vm)
+        {
+            return Ok(_customerService.CreateCustomerVMAsync(vm));
+        }
+        #endregion
+
+
+
+        #region Add Customer | Customer
+        /// <summary>
+        /// Create a new customer for a business.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> CreateCustomerAsync([FromBody] CustomerModel model)
+        {
+            return Ok(_customerService.CreateCustomerAsync(model));
+            //return Ok("UNDER CONTRUCTION | CreateCustomerAsync([FromBody] Customer model)");
+        }
+        #endregion
+
+
 
 
         //// PUT - CREATE: api/Customer/5
@@ -122,6 +184,7 @@ namespace MBDEVproAPI.API.Controllers
 
         //    return CreatedAtAction("GetCustomer", new { id = customer.CustomerID }, customer);
         //}
+
 
         //// DELETE: api/Customer/5
         //[HttpDelete("{id}")]

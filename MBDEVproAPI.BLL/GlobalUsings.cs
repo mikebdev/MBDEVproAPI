@@ -20,3 +20,4 @@ global using MBDEVproAPI.BLL.Services;
 global using MBDEVproAPI.DataModel;
 global using MBDEVproAPI.DataModel.Entities;
 global using MBDEVproAPI.Repository.Interfaces;
+global using MBDEVproAPI.Repository.Repositories;

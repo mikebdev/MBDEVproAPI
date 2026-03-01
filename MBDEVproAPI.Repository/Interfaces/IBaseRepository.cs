@@ -15,7 +15,7 @@ namespace MBDEVproAPI.Repository.Interfaces
         /// </summary>
         /// <param name="BusinessID"></param>
         /// <param name="obj"></param>
-        void Remove(int BusinessID, T obj);
+        void Remove(T obj);
 
         /// <summary>
         /// 

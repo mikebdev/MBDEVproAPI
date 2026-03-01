@@ -1,6 +1,4 @@
-﻿
-
-namespace MBDEVproAPI.API.Controllers 
+﻿namespace MBDEVproAPI.API.Controllers
 {
     public class CustomerController : BaseController
     {
@@ -20,9 +18,9 @@ namespace MBDEVproAPI.API.Controllers
         #endregion
 
 
-        #region Get All Customers | CustomerViewModel
+        #region Get All Customers
         /// <summary>
-        /// GET: Gets all customers for a business in a VM for web UI.  
+        /// GET: Get All Customers | CustomerViewModel | Gets all customers for a business in a VM for web UI. 
         /// TEST URL: https://localhost:7092/api/Customer/GetAllCustomers/52466 | https://localhost:7092/api/Customer/GetAllCustomers?BusinessID=52466
         /// "CustomerControllerGetAllCustomersVMAsync": "Customer/GetAllCustomersVMAsync",
         /// </summary>
@@ -50,12 +48,10 @@ namespace MBDEVproAPI.API.Controllers
                 return BadRequest("Customer API error: " + ex.Message + " | " + ex.InnerException);
             }
         }
-        #endregion
 
 
-        #region Get All Customers | CustomerModel
         /// <summary>
-        /// GET: Gets all customers for a business.
+        /// GET: Get All Customers | CustomerModel | Gets all customers for a business.
         /// TEST URL: https://localhost:7092/api/Customer/GetAllCustomers?BusinessID=52466
         /// "CustomerControllerGetAllCustomersAsync": "Customer/GetAllCustomersAsync",
         /// </summary>
@@ -83,9 +79,9 @@ namespace MBDEVproAPI.API.Controllers
 
 
 
-        #region Get Customer | Customer
+        #region Get Customer
         /// <summary>
-        /// GET: Gets a customer for a business.  
+        /// GET: Get Customer | Customer | Gets a customer for a business.  
         /// TEST URL: https://localhost:7092/api/Customer/GetCustomer/3 | https://localhost:7092/api/Customer/GetCustomer?CustomerID=3  
         /// "CustomerControllerGetCustomer": "Customer/GetCustomer",
         /// </summary>
@@ -109,9 +105,10 @@ namespace MBDEVproAPI.API.Controllers
 
 
 
-        #region Add Customer | CustomerViewModel   
+
+        #region Add Customer
         /// <summary>
-        /// Create a new customer for a business from client web application using a CustomerViewModel.
+        /// Add Customer | CustomerViewModel | Create a new customer for a business from client web application using a CustomerViewModel.
         /// </summary>
         /// <param name="vm"></param>
         /// <returns></returns>
@@ -120,13 +117,10 @@ namespace MBDEVproAPI.API.Controllers
         {
             return Ok(_customerService.CreateCustomerVMAsync(vm));
         }
-        #endregion
 
 
-
-        #region Add Customer | Customer
         /// <summary>
-        /// Create a new customer for a business.
+        /// Add Customer | CustomerModel | Create a new customer for a business.
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -141,50 +135,69 @@ namespace MBDEVproAPI.API.Controllers
 
 
 
-        //// PUT - CREATE: api/Customer/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
+        #region Edit Customer
+        /// <summary>
+        /// EDIT: Edit a Customer | CustomerViewModel | edit a customer for a business in a VM for web UI. 
+        /// TEST URL:  | 
+        /// "CustomerControllerEditCustomerVMAsync": "Customer/EditCustomerVMAsync",
+        /// </summary>
+        /// <param name="vm"></param>
+        /// <returns>CustomerViewModel</returns>
+        [HttpPost]
+        public async Task<IActionResult> EditCustomerVMAsync([FromBody] CustomerViewModel vm)
+        {
+            // if model is valid, then update, else return bad request with model state errors.
+            return Ok(_customerService.EditCustomerVMAsync(vm));
+            //return Ok("UNDER CONTRUCTION | EditCustomer(int id, [FromBody] Customer model)");
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> PutCustomer(int id, Customer customer)
+
+        /// <summary>
+        /// EDIT: Customer | CustomerModel | edit a customer for a business.
+        /// "CustomerControllerEditCustomer": "Customer/EditCustomer"
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+         public async Task<IActionResult> EditCustomer(int id, [FromBody] CustomerModel model)
+        {
+            // if model is valid, then update, else return bad request with model state errors.
+            return Ok(_customerService.EditCustomer(model));
+        }
+
+        // CustomerModel to just return a CustomerModel instead of a SaveViewModel with the RefID. We could do this for the VM as well.
+        #endregion
+
+
+
+        #region Delete Customer
+        /// <summary>
+        /// DELET: Customer | CustomerModel | Delete a customer for a business.
+        /// "CustomerControllerDeleteCustomer": "Customer/DeleteCustomer"
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteCustomer(int id)
+        {
+            return Ok(_customerService.DeleteCustomer(id));
+        }   
+        #endregion
+
+
+        //#region DELETE: Citation Type
+        ///// <summary>
+        ///// DELETE:  Citation Type
+        ///// "CitationTypeControllerDeleteCitationType": "CitationType/DeleteCitationType"
+        ///// </summary>
+        ///// <param name="CitationTypeID"></param>
+        ///// <returns></returns>
+        //[HttpDelete("{CitationTypeID:int}")]
+        //public IActionResult DeleteCitationType(int CitationTypeID)
         //{
-        //    if (id != customer.CustomerID)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(customer).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!CustomerExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
+        //    return Ok(_citationTypeService.DeleteCitationType(CitationTypeID));
         //}
-
-        //// POST: api/Customer
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
-        //{
-        //    _context.Customers.Add(customer);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetCustomer", new { id = customer.CustomerID }, customer);
-        //}
-
+        //#endregion
 
         //// DELETE: api/Customer/5
         //[HttpDelete("{id}")]

@@ -35,9 +35,17 @@
         #endregion
 
 
-        #region Get All Customers | CustomerViewModel
+
+        #region 
+        #endregion
+
+
+
+        #region Get All Customers
         /// <summary>
-        /// GET: Gets all customers for a business in a VM for web UI.  
+        /// GET: Get All Customers | CustomerViewModel | Gets all customers for a business in a VM for web UI. 
+        /// TEST URL: https://localhost:7092/api/Customer/GetAllCustomers/52466 | https://localhost:7092/api/Customer/GetAllCustomers?BusinessID=52466
+        /// "CustomerControllerGetAllCustomersVMAsync": "Customer/GetAllCustomersVMAsync",
         /// </summary>
         /// <param name="BusinessID"></param>
         /// <returns></returns>
@@ -69,10 +77,14 @@
                 return new CustomerViewModel();
             }
         }
-        #endregion
 
-
-        #region Get All Customers | CustomerModel
+        /// <summary>
+        /// GET: Get All Customers | CustomerModel | Gets all customers for a business.
+        /// TEST URL: https://localhost:7092/api/Customer/GetAllCustomers?BusinessID=52466
+        /// "CustomerControllerGetAllCustomersAsync": "Customer/GetAllCustomersAsync",
+        /// </summary>
+        /// <param name="BusinessID"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<CustomerModel>> GetAllCustomersAsync(int BusinessID)
         {
             try
@@ -104,35 +116,11 @@
         #endregion
 
 
-        //public IEnumerable<ProjectModel> GetAll()
-        //{
-        //    try
-        //    {
-        //        var entities = _projectRepository.GetAll().Select(O => Mapper.MapObject(O, new ProjectModel())).ToList();
-        //        if (entities == null)
-        //        {
-        //            throw new Exception("Licensing API: ProjectService(GetAll); (entities == null");
-        //        }
-        //        else
-        //        {
-        //            return entities;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.Data.Add("ErrorMessage", "Licensing API: ProjectService(GetAll)");
-        //        throw;
-        //    }
-        //}
-
-
-
-
-
-        #region Get Customer | Customer
-        //GetCustomerAsync
+        #region Get Customer
         /// <summary>
-        /// GET: Gets a customer for a business.  
+        /// GET: Get Customer | Customer | Gets a customer for a business.  
+        /// TEST URL: https://localhost:7092/api/Customer/GetCustomer/3 | https://localhost:7092/api/Customer/GetCustomer?CustomerID=3  
+        /// "CustomerControllerGetCustomer": "Customer/GetCustomer",
         /// </summary>
         /// <param name="CustomerID"></param>
         /// <returns></returns>
@@ -167,12 +155,9 @@
 
 
 
-
-
-
-        #region Add Customer | CustomerViewModel   
+        #region Add Customer
         /// <summary>
-        /// Create a new customer for a business from client web application using a CustomerViewModel.
+        /// Add Customer | CustomerViewModel | Create a new customer for a business from client web application using a CustomerViewModel.
         /// </summary>
         /// <param name="vm"></param>
         /// <returns></returns>
@@ -218,13 +203,9 @@
             {
             }
         }
-        #endregion
 
-
-        #region Add Customer | Customer
         /// <summary>
-        /// CREATE: Customer
-        /// "CustomerControllerCreateCustomerAsync": "Customer/CreateCustomerAsync" 
+        /// Add Customer | CustomerModel | Create a new customer for a business.
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -239,7 +220,7 @@
                 }
                 else
                 {
-                    var entity = new DataModel.Entities.Customer();
+                    var entity =  new DataModel.Entities.Customer();
                     if (entity == null)
                     {
                         Log.Error("Customer API: CustomerService(CreateCustomerAsync); (entity == null)");
@@ -269,23 +250,7 @@
             {
 
             }
-
-
         }
-        #endregion
-
-
-
-        ///// <summary>
-        ///// GET: Customer
-        ///// "CustomerControllerGetCustomer": "Customer/GetCustomer"
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //public CustomerModel GetCustomer(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         /// <summary>
         /// CREATE: Customer
@@ -297,31 +262,189 @@
         {
             throw new NotImplementedException();
         }
+        #endregion
+
+
+
+        #region Edit Customer
+        /// <summary>
+        /// EDIT: Edit a Customer | CustomerViewModel | edit a customer for a business in a VM for web UI. 
+        /// TEST URL:  | 
+        /// "CustomerControllerEditCustomerVMAsync": "Customer/EditCustomerVMAsync",
+        /// </summary>
+        /// <param name="vm"></param>
+        /// <returns>SaveViewModel</returns>
+        public async Task<SaveViewModel> EditCustomerVMAsync(CustomerViewModel vm)
+        {
+            try
+            {
+                if (vm == null || vm.CustomerID == 0 || vm.BusinessID == 0)
+                {
+                    Log.Error("Customer API: CustomerService(EditCustomerVMAsync); (vm == null || vm.CustomerID == 0 || vm.BusinessID == 0)");
+                    return new SaveViewModel { IsSaved = false, ErrorMessage = "Please provide details to Edit the Customer." };
+                }
+                else
+                {
+                    var entity = await _customerRepository.GetCustomerAsync(vm.CustomerID);
+                    if (entity == null)
+                    {
+                        Log.Error("Customer API: CustomerService(EditCustomerVMAsync); (entity == null)");
+                        return new SaveViewModel { IsSaved = false, ErrorMessage = "Please provide details to Edit the Customer." };
+                    }
+                    else
+                    {
+                        int? refID;
+                        using (TransactionScope scope = new TransactionScope())
+                        {
+                            Mapper.MapObject(vm, entity);
+                            _customerRepository.SaveChanges();
+                            refID = entity.CustomerID;
+                            scope.Complete();
+                        }
+                        return new SaveViewModel(refID);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Customer API: CustomerService(EditCustomerVMAsync); (" + ex + ")" + " (" + ex.InnerException + ")");
+                return new SaveViewModel(ex.Message);
+            }
+            finally
+            {
+            }
+        }
 
         /// <summary>
-        /// EDIT: Customer
+        /// EDIT: Customer | CustomerModel | edit a customer for a business.
         /// "CustomerControllerEditCustomer": "Customer/EditCustomer"
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public SaveViewModel EditCustomer(int id, CustomerModel model)
+        public async Task<SaveViewModel> EditCustomer(CustomerModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (model == null || model.CustomerID == 0 || model.BusinessID == 0)
+                {
+                    Log.Error("Customer API: CustomerService(EditCustomer) CustomerModel; (model == null || model.CustomerID == 0 || model.BusinessID == 0)");
+                    return new SaveViewModel { IsSaved = false, ErrorMessage = "Please provide details to Edit the Customer." };
+                }
+                else
+                {
+                    var entity = await _customerRepository.GetCustomerAsync(model.CustomerID);
+                    if (entity == null)
+                    {
+                        Log.Error("Customer API: CustomerService(EditCustomer) CustomerModel; (entity == null)");
+                        return new SaveViewModel { IsSaved = false, ErrorMessage = "Please provide details to Edit the Customer." };
+                    }
+                    else
+                    {
+                        int? refID;
+                        using (TransactionScope scope = new TransactionScope())
+                        {
+                            Mapper.MapObject(model, entity);
+                            _customerRepository.SaveChanges();
+                            refID = entity.CustomerID;
+                            scope.Complete();
+                        }
+                        return new SaveViewModel(refID);
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                Log.Error("Customer API: CustomerService(EditCustomer) CustomerModel; (" + ex + ")" + " (" + ex.InnerException + ")");
+                return new SaveViewModel(ex.Message);
+            }
+            finally
+            {
+            }
+        }
+
+        // CustomerModel to just return a CustomerModel instead of a SaveViewModel with the RefID. We could do this for the VM as well.
+        #endregion
+
+
+
+        #region Delete Customer
+        /// <summary>
+        /// DELETE: Customer | SaveViewModel | delete a customer for a business and return a SaveViewModel with the RefID of the deleted customer.
+        /// "CustomerControllerDeleteCustomerVM": "Customer/DeleteCustomerVM"
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>SaveViewModel</returns>
+        public async Task<SaveViewModel> DeleteCustomerVM(int CustomerID)
+        {
+            try
+            {
+                int? refID = null;
+                if (CustomerID == 0)
+                {
+                    Log.Error("Customer API: CustomerService(DeleteCustomerVM); (CustomerID == 0)");
+                    return new SaveViewModel("Please provide details to delete the Customer.");
+                }
+                else
+                {
+                    var entity = await _customerRepository.GetCustomerAsync(CustomerID);
+
+                    if (entity == null)
+                    {
+                        Log.Error("Customer API: CustomerService(DeleteCustomerVM); (entity == null)");
+                        return new SaveViewModel("Please provide details to delete the Customer.");
+                    }
+                    else
+                    {
+                        using (TransactionScope scope = new TransactionScope())
+                        {
+                            _customerRepository.Remove(entity);
+                            _customerRepository.SaveChanges();
+                            scope.Complete();
+                            refID = entity.CustomerID;
+                        }
+                        return new SaveViewModel(refID);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Customer API: CustomerService(EditCustomer) CustomerModel; (" + ex + ")" + " (" + ex.InnerException + ")");
+                return new SaveViewModel(ex.Message);
+            }
+            finally
+            {
+            }
+            return new SaveViewModel("Customer API: CustomerService(DeleteCustomer); (SaveViewModel) Not Yet Implemented.");
         }
 
         /// <summary>
-        /// DELETE: Customer
-        /// "CustomerControllerDeleteCustomer": "Customer/DeleteCustomer"
+        /// DELETE: Customer | CustomerModel | delete a customer for a business and return a SaveViewModel with the RefID of the deleted customer.
+        /// "CustomerControllerDeleteCustomerVM": "Customer/DeleteCustomerVM"
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
-        public SaveViewModel DeleteCustomer(int id)
+        /// <returns>SaveViewModel</returns>
+        public CustomerModel DeleteCustomer(int CustomerID)
+        {
+            throw new NotImplementedException();
+           // return new SaveViewModel("Customer API: CustomerService(DeleteCustomer); (SaveViewModel) Not Yet Implemented.");
+        }
+
+        SaveViewModel ICustomerService.DeleteCustomer(int CustomerID)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
 
 
+
+
+
+
+
+
+        #region Other
+        #endregion
     }
 
 }

@@ -29,26 +29,27 @@ namespace MBDEVproAPI.Repository.Repositories
 
 
 
+        #region 
+        #endregion
 
 
 
-
-
-        #region Get All Customers | CustomerViewModel
+        #region Get All Customers
         /// <summary>
-        /// GET: Get All Customers Async
+        /// GET: Get All Customers | CustomerViewModel | Gets all customers for a business in a VM for web UI. 
         /// </summary>
         /// <param name="BusinessID"></param>
-        /// <returns></returns>
+        /// <returns>customers</returns>
         public async Task<IEnumerable<Customer>> GetAllCustomersVMAsync(int BusinessID)
         {
             var customers = await _context.Customers.Where(O => O.BusinessID == BusinessID).ToListAsync();
             return customers;
         }
-        #endregion
 
-
-        #region Get All Customers | CustomerModel
+        /// GET: Get All Customers | CustomerModel | Gets all customers for a business.
+        /// </summary>
+        /// <param name="BusinessID"></param>
+        /// <returns>customer</returns>
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync(int BusinessID)
         {
             var customers = await _context.Customers.Where(O => O.BusinessID == BusinessID).ToListAsync();
@@ -57,7 +58,13 @@ namespace MBDEVproAPI.Repository.Repositories
         #endregion
 
 
-        #region Get All Customers | Customer
+
+        #region Get Customer
+        /// <summary>
+        /// GET: Get Customer | Customer | Gets a customer for a business.  
+        /// </summary>
+        /// <param name="CustomerID"></param>
+        /// <returns></returns>
         public async Task<Customer> GetCustomerAsync(int CustomerID)
         {
             var customer = await _context.Customers.Where(O => O.CustomerID == CustomerID).FirstOrDefaultAsync();
@@ -75,69 +82,54 @@ namespace MBDEVproAPI.Repository.Repositories
 
 
 
-        #region Add Customer Async  
-        public async Task AddAsync(Customer customer)
-        {
-            await _context.Customers.AddAsync(customer);
-            await _context.SaveChangesAsync(); // Non-blocking save
-        }
-        #endregion
-
-
-
-
-
-
-        #region other
-        public IEnumerable<Customer> GetAll(int BusinessID)
-        {
-            var customers = _context.Customers.Where(O => O.BusinessID == BusinessID).ToList();
-
-            return customers;
-        }
-
-        ///// <summary>
-        ///// Get a single record by ID
-        ///// </summary>
-        ///// <param name="BusinessID"></param>
-        ///// <param name="CustomerID"></param>
-        ///// <returns></returns>
-        public Customer GetByID(int BusinessID, int? id)
-        {
-            var customer = _context.Customers.Where(O => O.BusinessID == BusinessID && O.CustomerID == id).FirstOrDefault();
-
-            if (customer == null)
-            {
-                throw new Exception("Customer not found");
-            }
-            else
-            {
-                return customer;
-            }
-        }
-
-
+        #region Add Customer
         public void Add(Customer obj)
         {
             _context.Customers.Add(obj);
         }
+        #endregion
 
-        public void Remove(int BusinessID, Customer obj)
+
+
+        #region Edit Customer
+        #endregion
+
+
+
+        #region Delete Customer
+        //Task<SaveViewModel> DeleteCustomerVM(int CustomerID);
+        public void DeleteCustomerVM(Customer obj)
         {
-            throw new NotImplementedException();
+            _context.Customers.Remove(obj);
         }
 
+        public void Remove(Customer obj)
+        {
+            _context.Customers.Remove(obj);
+        }
+        #endregion
+
+
+        #region Save Customer
         public void SaveChanges()
         {
             _context.SaveChanges();
         }
-
- 
-
-
         #endregion
 
 
+
+        #region Other
+        public Customer GetByID(int BusinessID, int? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Customer> GetAll(int BusinessID)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
 
     }
 }

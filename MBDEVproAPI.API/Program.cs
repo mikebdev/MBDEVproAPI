@@ -41,7 +41,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
+//ADD: API security and authentication (OAuth2, OpenID Connect, JWT)
 
 var app = builder.Build();
 

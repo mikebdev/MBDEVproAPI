@@ -106,7 +106,7 @@
 
 
 
-        #region Add Customer
+        #region Create Customer
         /// <summary>
         /// Add Customer | CustomerViewModel | Create a new customer for a business from client web application using a CustomerViewModel.
         /// </summary>
@@ -115,19 +115,22 @@
         [HttpPost]
         public async Task<IActionResult> CreateCustomerVMAsync([FromBody] CustomerViewModel vm)
         {
-            return Ok(_customerService.CreateCustomerVMAsync(vm));
+            var result = await _customerService.CreateCustomerVMAsync(vm);
+            return Ok(result);
         }
 
 
         /// <summary>
         /// Add Customer | CustomerModel | Create a new customer for a business.
+        /// TEST URL: https://localhost:7092/api/Customer/CreateCustomer
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateCustomerAsync([FromBody] CustomerModel model)
         {
-            return Ok(_customerService.CreateCustomerAsync(model));
+            var result = await _customerService.CreateCustomerAsync(model); 
+            return Ok(result);
             //return Ok("UNDER CONTRUCTION | CreateCustomerAsync([FromBody] Customer model)");
         }
         #endregion
@@ -142,27 +145,30 @@
         /// "CustomerControllerEditCustomerVMAsync": "Customer/EditCustomerVMAsync",
         /// </summary>
         /// <param name="vm"></param>
-        /// <returns>CustomerViewModel</returns>
+        /// <returns>SaveViewModel</returns>
         [HttpPost]
         public async Task<IActionResult> EditCustomerVMAsync([FromBody] CustomerViewModel vm)
         {
             // if model is valid, then update, else return bad request with model state errors.
-            return Ok(_customerService.EditCustomerVMAsync(vm));
+            var result = await _customerService.EditCustomerVMAsync(vm);
+            return Ok(result);
             //return Ok("UNDER CONTRUCTION | EditCustomer(int id, [FromBody] Customer model)");
         }
 
 
         /// <summary>
         /// EDIT: Customer | CustomerModel | edit a customer for a business.
+        /// TEST URL: https://localhost:7092/api/Customer/EditCustomer?id=5
         /// "CustomerControllerEditCustomer": "Customer/EditCustomer"
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-         public async Task<IActionResult> EditCustomer(int id, [FromBody] CustomerModel model)
+         public async Task<IActionResult> EditCustomer([FromBody] CustomerModel model)
         {
             // if model is valid, then update, else return bad request with model state errors.
-            return Ok(_customerService.EditCustomer(model));
+            var result = await _customerService.EditCustomer(model);    
+            return Ok(result);
         }
 
         // CustomerModel to just return a CustomerModel instead of a SaveViewModel with the RefID. We could do this for the VM as well.
@@ -172,56 +178,19 @@
 
         #region Delete Customer
         /// <summary>
-        /// DELET: Customer | CustomerModel | Delete a customer for a business.
-        /// "CustomerControllerDeleteCustomer": "Customer/DeleteCustomer"
+        /// DELETE: Customer | SaveViewModel | delete a customer for a business and return a SaveViewModel with the RefID of the deleted customer.
+        /// "CustomerControllerDeleteCustomerVMAsync": "Customer/DeleteCustomerVMAsync"
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteCustomer(int id)
+        /// <returns>SaveViewModel</returns>
+        [HttpDelete("{CustomerID:int}")]
+        public async Task<SaveViewModel> DeleteCustomerVMAsync(int CustomerID)
         {
-            return Ok(_customerService.DeleteCustomer(id));
-        }   
+            var result = await _customerService.DeleteCustomerVMAsync(CustomerID);
+            return result;
+        }
         #endregion
-
-
-        //#region DELETE: Citation Type
-        ///// <summary>
-        ///// DELETE:  Citation Type
-        ///// "CitationTypeControllerDeleteCitationType": "CitationType/DeleteCitationType"
-        ///// </summary>
-        ///// <param name="CitationTypeID"></param>
-        ///// <returns></returns>
-        //[HttpDelete("{CitationTypeID:int}")]
-        //public IActionResult DeleteCitationType(int CitationTypeID)
-        //{
-        //    return Ok(_citationTypeService.DeleteCitationType(CitationTypeID));
-        //}
-        //#endregion
-
-        //// DELETE: api/Customer/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteCustomer(int id)
-        //{
-        //    var customer = await _context.Customers.FindAsync(id);
-        //    if (customer == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Customers.Remove(customer);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool CustomerExists(int id)
-        //{
-        //    return _context.Customers.Any(e => e.CustomerID == id);
-        //}
-
     }
-
 }
 
 

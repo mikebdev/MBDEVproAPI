@@ -43,8 +43,8 @@ namespace MBDEVproAPI.BLL.Interfaces
 
 
         #region Delete Customer
-        Task<SaveViewModel> DeleteCustomerVM(int CustomerID);
-        SaveViewModel DeleteCustomer(int CustomerID);
+        Task<SaveViewModel> DeleteCustomerVMAsync(int CustomerID);
+        Task<CustomerModel> DeleteCustomer(int CustomerID);
         #endregion
     }
 }

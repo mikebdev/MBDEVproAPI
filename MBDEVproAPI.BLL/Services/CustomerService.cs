@@ -289,7 +289,7 @@
                     if (entity == null)
                     {
                         Log.Error("Customer API: CustomerService(EditCustomerVMAsync); (entity == null)");
-                        return new SaveViewModel { IsSaved = false, ErrorMessage = "Please provide details to Edit the Customer." };
+                        return new SaveViewModel { IsSaved = false, ErrorMessage = "Please provide details to Edit the Customer. (entity == null)" };
                     }
                     else
                     {
@@ -328,7 +328,7 @@
                 if (model == null || model.CustomerID == 0 || model.BusinessID == 0)
                 {
                     Log.Error("Customer API: CustomerService(EditCustomer) CustomerModel; (model == null || model.CustomerID == 0 || model.BusinessID == 0)");
-                    return new SaveViewModel { IsSaved = false, ErrorMessage = "Please provide details to Edit the Customer." };
+                    return new SaveViewModel { IsSaved = false, ErrorMessage = "Please provide details to Edit the Customer. Null Values" };
                 }
                 else
                 {
@@ -341,11 +341,12 @@
                     else
                     {
                         int? refID;
+                        refID = entity.CustomerID;
                         using (TransactionScope scope = new TransactionScope())
                         {
                             Mapper.MapObject(model, entity);
                             _customerRepository.SaveChanges();
-                            refID = entity.CustomerID;
+                            //refID = entity.CustomerID;
                             scope.Complete();
                         }
                         return new SaveViewModel(refID);
@@ -374,14 +375,14 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns>SaveViewModel</returns>
-        public async Task<SaveViewModel> DeleteCustomerVM(int CustomerID)
+        public async Task<SaveViewModel> DeleteCustomerVMAsync(int CustomerID)
         {
             try
             {
                 int? refID = null;
                 if (CustomerID == 0)
                 {
-                    Log.Error("Customer API: CustomerService(DeleteCustomerVM); (CustomerID == 0)");
+                    Log.Error("Customer API: CustomerService(DeleteCustomerVMAsync); (CustomerID == 0)");
                     return new SaveViewModel("Please provide details to delete the Customer.");
                 }
                 else
@@ -390,7 +391,7 @@
 
                     if (entity == null)
                     {
-                        Log.Error("Customer API: CustomerService(DeleteCustomerVM); (entity == null)");
+                        Log.Error("Customer API: CustomerService(DeleteCustomerVMAsync); (entity == null)");
                         return new SaveViewModel("Please provide details to delete the Customer.");
                     }
                     else
@@ -408,30 +409,47 @@
             }
             catch (Exception ex)
             {
-                Log.Error("Customer API: CustomerService(EditCustomer) CustomerModel; (" + ex + ")" + " (" + ex.InnerException + ")");
-                return new SaveViewModel(ex.Message);
+                Log.Error("Customer API: CustomerService(DeleteCustomerVMAsync); (" + ex + ")" + " (" + ex.InnerException + ")");
+                return new SaveViewModel("Customer API: CustomerService(DeleteCustomerVMAsync); (" + ex + ")" + " (" + ex.InnerException + ") Message: " + ex.Message);
             }
             finally
             {
             }
-            return new SaveViewModel("Customer API: CustomerService(DeleteCustomer); (SaveViewModel) Not Yet Implemented.");
         }
 
         /// <summary>
-        /// DELETE: Customer | CustomerModel | delete a customer for a business and return a SaveViewModel with the RefID of the deleted customer.
-        /// "CustomerControllerDeleteCustomerVM": "Customer/DeleteCustomerVM"
+        /// DELETE: Customer | CustomerModel | delete a customer for a business.
+        /// "CustomerControllerDeleteCustomer": "Customer/DeleteCustomer"
         /// </summary>
         /// <param name="id"></param>
         /// <returns>SaveViewModel</returns>
-        public CustomerModel DeleteCustomer(int CustomerID)
-        {
-            throw new NotImplementedException();
-           // return new SaveViewModel("Customer API: CustomerService(DeleteCustomer); (SaveViewModel) Not Yet Implemented.");
-        }
-
-        SaveViewModel ICustomerService.DeleteCustomer(int CustomerID)
-        {
-            throw new NotImplementedException();
+        public async Task<CustomerModel> DeleteCustomer(int CustomerID)
+        {   // More to do here
+            if (CustomerID == 0)
+            {
+                Log.Error("Customer API: CustomerService(DeleteCustomer); (CustomerID == 0)");
+                return new CustomerModel();
+            }
+            else {  
+                var entity = await _customerRepository.GetCustomerAsync(CustomerID);
+                if (entity == null)
+                {
+                    Log.Error("Customer API: CustomerService(DeleteCustomer); (entity == null)");
+                    return new CustomerModel();
+                }
+                else
+                {
+                    int? refID = null;
+                    using (TransactionScope scope = new TransactionScope())
+                    {
+                        _customerRepository.Remove(entity);
+                        _customerRepository.SaveChanges();
+                        scope.Complete();
+                        refID = entity.CustomerID;
+                    }
+                    return Mapper.MapObject(entity, new CustomerModel());
+                }
+            }
         }
         #endregion
 

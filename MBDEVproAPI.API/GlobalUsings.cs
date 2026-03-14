@@ -23,5 +23,6 @@ global using Microsoft.Extensions.Hosting;
 //global using Microsoft.OpenApi.Models;
 global using Serilog;
 global using Serilog.Formatting.Json;
-global using Microsoft.OpenApi; 
+global using Microsoft.OpenApi;
+global using Scalar.AspNetCore;
 

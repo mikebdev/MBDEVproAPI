@@ -1,7 +1,12 @@
-
-using Scalar.AspNetCore;
-
 var builder = WebApplication.CreateBuilder(args);
+var logger = new LoggerConfiguration()
+                    .ReadFrom.Configuration(builder.Configuration)
+                    .Enrich.FromLogContext()
+                    .CreateLogger();
+builder.Host.UseSerilog(logger);
+
+
+
 
 //DATABASE CONNECTION
 builder.Services.AddDbContext<MBDEVproAPIDbContext>(options =>
@@ -45,11 +50,13 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi(); // Expose the OpenAPI JSON endpoint
-    app.MapScalarApiReference(); // Map the Scalar UI endpoint
+    //app.MapOpenApi(); // Expose the OpenAPI JSON endpoint
+    //app.MapScalarApiReference(); // Map the Scalar UI endpoint
 
     Log.Information("MBDEVproAPI: (Development Environment)");
     app.UseDeveloperExceptionPage();
@@ -72,15 +79,24 @@ if (app.Environment.EnvironmentName == "Production")
 
 if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Test")
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        //c.SwaggerEndpoint("/MBDEVproAPI/swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
-        c.SwaggerEndpoint("../swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
-        // ENDPOINTS: https://localhost:7092/swagger/index.html
-        // JSON: https://localhost:7092/swagger/v1/swagger.json
-    });
+    //app.UseSwagger();
+    //app.UseSwaggerUI(c =>
+    //{
+    //    //c.SwaggerEndpoint("/MBDEVproAPI/swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
+    //    c.SwaggerEndpoint("../swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
+    //    // ENDPOINTS: https://localhost:7092/swagger/index.html
+    //    // JSON: https://localhost:7092/swagger/v1/swagger.json
+    //});
 }
+
+
+
+//DEMO so can test with swagger and scalar UI, can remove later
+app.MapOpenApi(); // Expose the OpenAPI JSON endpoint
+app.MapScalarApiReference(); // Map the Scalar UI endpoint
+
+Log.Information("MBDEVproAPI: (Development Environment)");
+//app.UseDeveloperExceptionPage(); // For local only, can change later for testing and production environments, can also add custom error handling middleware for production environment.
 
 app.MapScalarApiReference(options =>
 {
@@ -90,10 +106,24 @@ app.MapScalarApiReference(options =>
 });
 
 
+//DEMO so can test with swagger and scalar UI, can remove later
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    //c.SwaggerEndpoint("/MBDEVproAPI/swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
+    c.SwaggerEndpoint("../swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
+    // ENDPOINTS: https://localhost:7092/swagger/index.html
+    // JSON: https://localhost:7092/swagger/v1/swagger.json
+});
 
+app.UseSerilogRequestLogging(); // Add Serilog request logging middleware   
+
+app.UseDeveloperExceptionPage(); // For local only, can change later for testing and production environments, can also add custom error handling middleware for production environment.
 
 //Middleware
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseAuthorization();
 

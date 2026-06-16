@@ -52,15 +52,30 @@ var app = builder.Build();
 
 app.UseSerilogRequestLogging();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     //app.MapOpenApi(); // Expose the OpenAPI JSON endpoint
     //app.MapScalarApiReference(); // Map the Scalar UI endpoint
 
+    app.MapOpenApi();
+    app.MapScalarApiReference();
+    //app.MapScalarApiReference(options =>
+    //{
+    //    options.Title = "MBDEVproAPI v1 .NET CORE 10";
+    //    options.WithTheme(ScalarTheme.Moon); // Use a specific theme
+    //    options.ForceDarkMode(); // Force dark mode
+    //});
+
+    // Automatically redirect to Scalar documentation
+    //app.MapGet("/", () => Results.Redirect("/scalar"));
+
     Log.Information("MBDEVproAPI: (Development Environment)");
     app.UseDeveloperExceptionPage();
 }
+
+
 
 if (app.Environment.EnvironmentName == "Test")
 {
@@ -77,44 +92,19 @@ if (app.Environment.EnvironmentName == "Production")
     Log.Information("MBDEVproAPI: Production Environment)");
 }
 
-if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Test")
-{
-    //app.UseSwagger();
-    //app.UseSwaggerUI(c =>
-    //{
-    //    //c.SwaggerEndpoint("/MBDEVproAPI/swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
-    //    c.SwaggerEndpoint("../swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
-    //    // ENDPOINTS: https://localhost:7092/swagger/index.html
-    //    // JSON: https://localhost:7092/swagger/v1/swagger.json
-    //});
-}
-
-
-
-//DEMO so can test with swagger and scalar UI, can remove later
-app.MapOpenApi(); // Expose the OpenAPI JSON endpoint
-app.MapScalarApiReference(); // Map the Scalar UI endpoint
+//if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Test")
+//{
+//    //app.UseSwagger();
+//    //app.UseSwaggerUI(c =>
+//    //{
+//    //    //c.SwaggerEndpoint("/MBDEVproAPI/swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
+//    //    c.SwaggerEndpoint("../swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
+//    //    // ENDPOINTS: https://localhost:7092/swagger/index.html
+//    //    // JSON: https://localhost:7092/swagger/v1/swagger.json
+//    //});
+//}
 
 Log.Information("MBDEVproAPI: (Development Environment)");
-//app.UseDeveloperExceptionPage(); // For local only, can change later for testing and production environments, can also add custom error handling middleware for production environment.
-
-app.MapScalarApiReference(options =>
-{
-    options.Title = "MBDEVproAPI v1 .NET CORE 10";
-    options.WithTheme(ScalarTheme.Moon); // Use a specific theme
-    options.ForceDarkMode(); // Force dark mode
-});
-
-
-//DEMO so can test with swagger and scalar UI, can remove later
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    //c.SwaggerEndpoint("/MBDEVproAPI/swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
-    c.SwaggerEndpoint("../swagger/v1/swagger.json", "MBDEVproAPI v1 .NET CORE 10");
-    // ENDPOINTS: https://localhost:7092/swagger/index.html
-    // JSON: https://localhost:7092/swagger/v1/swagger.json
-});
 
 app.UseSerilogRequestLogging(); // Add Serilog request logging middleware   
 

@@ -184,10 +184,10 @@
         /// <param name="id"></param>
         /// <returns>SaveViewModel</returns>
         [HttpDelete("{CustomerID:int}")]
-        public async Task<SaveViewModel> DeleteCustomerVMAsync(int CustomerID)
+        public async Task<IActionResult> DeleteCustomerVMAsync(int CustomerID)// LOOK   AT ALL THESE IN CONTROLLER COMPAARED TO LICENSE API, WE JUST USE ACTION RESULT HERE AND RETURN THE MODEL THAT IS IN THE SERVICE.
         {
             var result = await _customerService.DeleteCustomerVMAsync(CustomerID);
-            return result;
+            return Ok(result);
         }
         #endregion
     }
